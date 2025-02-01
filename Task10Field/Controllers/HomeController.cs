@@ -71,7 +71,7 @@ namespace Task10Field.Controllers
             }
             else
             {
-                TempData["error"] = "This Email is Already added";
+                TempData["error"] = "This Email is Already added ok";
             }
             return View(model);
           
