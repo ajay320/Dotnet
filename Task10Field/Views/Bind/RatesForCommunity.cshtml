@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Task10Field.Models.InnerViewModel>
+
+@{
+    ViewData["Title"] = "RatesForCommunity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>RatesForCommunity</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Countries</th>
+            <th>States</th>
+            <th>Cities</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model)
+        {
+            <!-- Group Header -->
+            <tr>
+                <td colspan="4" style="background-color: #f0f0f0; font-weight: bold;">
+                    Designation: @group.Designation
+                </td>
+            </tr>
+
+            <!-- Data Rows for Each Group -->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.countries)</td>
+                    <td>@Html.DisplayFor(modelItem => item.states)</td>
+                    <td>@Html.DisplayFor(modelItem => item.cities)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

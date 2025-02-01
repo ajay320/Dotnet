@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Task10Field.Models.Employee> 
+@{
+    ViewData["Title"] = "ShowData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3 class="text-center text-success" id="FormMsgId">@TempData["msg"]</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Full Name</th>
+            <th>Joining Date</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Designation</th>
+            <th>Address</th>
+            <th>Salary</th>
+            <th>Employee Code</th>
+            <th>Adhar Card</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)  
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.FullName</td>
+                <td>@employee.JoiningDate.ToString("yyyy-MM-dd")</td>
+                <td>@employee.Email</td>
+                <td>@employee.Gender</td>
+                <td>@employee.Designation</td>
+                <td>@employee.Address</td>
+                <td>@employee.Salary</td>
+                <td>@employee.EmployeeCode</td>
+                <td style="width:70px"><img src="~/Images/@employee.AdharCard" style="height:70px"></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

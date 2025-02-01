@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Task10Field.Models.Binding.Country>
+
+@{
+    ViewData["Title"] = "Country";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Country</h1>
+<div class="container m-auto">
+<h4>Country</h4>
+<hr />
+<div class="row ">
+    <div class="col-md-4">
+        <form asp-action="Country">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>CountryName</label>
+                <input name="CountryName" class="form-control" placeholder="add Country"/>
+                
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div><br /><br /><hr />
+<h1>Add State</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="State">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label>Select Country</label>
+                <select name="CountryId" class="form-control">
+                @foreach(var country in Model){
+                    <option value="@country.CountryId">@country.CountryName</option>
+                }
+            </select>
+            <div class="form-group">
+                <label>StateName</label>
+                <input name="StateName" class="form-control" />
+               
+            </div>
+            <div class="form-group">
+                <input type="submit" value="CreateState" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+<br />
+<hr />
+<h1>Add City</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="City">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label>Select State</label>
+                <select name="StateId" class="form-control">
+                @foreach (var country in Model)
+                {
+                    @foreach(var state in country.States){
+                            <option value="@state.StateId">@state.StateName</option>
+                    }
+                   
+                }
+            </select>
+            <div class="form-group">
+                <label>CityName</label>
+                <input name="CityName" class="form-control" placeholder="Add cityName"/>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="AddCity" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+

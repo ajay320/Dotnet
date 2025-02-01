@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Task10Field.Models.Binding.Country>
+<button><a asp-action="ShowDetails">ShowDetails</a></button>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+
+<form id="locationForm" action="Details" method="post">
+    <div class="form-group">
+        Name:<br />
+        <input type="text" name="Name" class="form-control" required/>
+    </div>
+    <div class="form-group">
+        RollNo. <br />
+        <input type="text" name="Mobile" class="form-control" required/>
+    </div>
+    <div class="form-group">
+        <label for="countries">Select Country:</label>
+        <select name="countries" id="countries" class="form-control" required>
+            <option value="">-- Select Country --</option>
+            @foreach (var country in Model)
+            {
+                <option value="@country.CountryId">@country.CountryName</option>
+            }
+        </select>
+        <input type="hidden" name="countryName" id="countryName" />
+    </div>
+
+    <div class="form-group">
+        <label for="states">Select State:</label>
+        <select name="states" id="states" class="form-control" disabled required>
+            <option value="">-- Select State --</option>
+        </select>
+        <input type="hidden" name="stateName" id="stateName" />
+    </div>
+
+    <div class="form-group">
+        <label for="cities">Select City:</label>
+        <select name="cities" id="cities" class="form-control" disabled required>
+            <option value="">-- Select City --</option>
+        </select>
+        <input type="hidden" name="cityName" id="cityName" />
+    </div><br />
+    <div>
+        <input type="submit" value="Submit" />
+    </div>
+</form>
+
+        </div>
+    </div>
+</div>
+   
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+        $(document).ready(function () {
+        $('#countries').change(function () {
+            var countryId = $(this).val();
+            var countryName = $("#countries option:selected").text();
+            $('#countryName').val(countryName); 
+
+            if (countryId) {
+                $('#states').empty().append('<option value="">-- Select State --</option>');
+                $('#cities').empty().append('<option value="">-- Select City --</option>').prop('disabled', true);
+                $.getJSON(`/Bind/GetStates?countryId=${countryId}`, function (states) {
+                    $.each(states, function (index, state) {
+                        $('#states').append(`<option value="${state.stateId}">${state.stateName}</option>`);
+                    });
+                    $('#states').prop('disabled', false);
+                });
+            } else {
+                $('#states').prop('disabled', true);
+                $('#cities').prop('disabled', true);
+            }
+        });
+
+        $('#states').change(function () {
+            var stateId = $(this).val();
+            var stateName = $("#states option:selected").text();
+            $('#stateName').val(stateName); 
+
+            $('#cities').empty().append('<option value="">-- Select City --</option>');
+
+            if (stateId) {
+                $.getJSON(`/Bind/GetCities?stateId=${stateId}`, function (cities) {
+                    $.each(cities, function (index, city) {
+                        $('#cities').append(`<option value="${city.cityId}">${city.cityName}</option>`);
+                    });
+                    $('#cities').prop('disabled', false);
+                });
+            } else {
+                $('#cities').prop('disabled', true);
+            }
+        });
+
+        $('#cities').change(function () {
+            var cityName = $("#cities option:selected").text();
+            $('#cityName').val(cityName); // Set hidden field value
+        });
+    });
+
+</script>

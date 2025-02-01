@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Request OTP";
+}
+
+<h2>Request OTP</h2>
+<form method="post" asp-action="GenerateOTP">
+    <div>
+        <label for="mobileNumber">Mobile Number:</label>
+        <input type="text" id="mobileNumber" name="mobileNumber" required />
+    </div>
+    <button type="submit">Send OTP</button>
+</form>

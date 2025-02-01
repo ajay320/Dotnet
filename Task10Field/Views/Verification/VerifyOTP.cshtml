@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Verify OTP";
+}
+
+<h2>Verify OTP</h2>
+<form method="post" asp-action="VerifyOTP">
+    <div>
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" required />
+    </div>
+    <input type="hidden" name="mobileNumber" value="@ViewBag.MobileNumber" />
+    <button type="submit">Verify OTP</button>
+</form>

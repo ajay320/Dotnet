@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Payment Page";
+}
+
+<h2>Make a Payment</h2>
+<form id="payment-form">
+    <label>Name:</label>
+    <input type="text" id="name" required><br>
+
+    <label>Email:</label>
+    <input type="email" id="email" required><br>
+
+    <label>Amount ($):</label>
+    <input type="number" id="amount" min="1" required><br>
+
+    <button type="submit">Pay Now</button>
+</form>
+<script>
+    document.getElementById("payment-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const amount = document.getElementById("amount").value;
+
+        if (!name || !email || !amount) {
+            alert("Please fill in all fields!");
+            return;
+        }
+
+        try {
+            const response = await fetch('/Payment/CreateCheckoutSession', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, email: email, amount: parseFloat(amount) })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const session = await response.json();
+            const stripe = Stripe("pk_test_51QmX5bBy6Ejxr9iisj4vfeMXxXjJTCng5wrLgnfqF9BSvTjgpFVXuIof5aFd7r6rBvTMsJdAjkKLAwkeErzXaDTk00G61X5l1B");
+
+            stripe.redirectToCheckout({ sessionId: session.sessionId });
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Payment processing failed. Please try again.");
+        }
+    });
+</script>
